@@ -27,6 +27,7 @@ author: @f_nishio
 
 
 ## Extensible Web
+
 [Extensible Web Manifesto](https://extensiblewebmanifesto.org/ja/)
 
 - 標準化は時間がかかる
