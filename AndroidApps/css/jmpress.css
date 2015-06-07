@@ -1,0 +1,26 @@
+.history img {
+  zoom: 200%;
+}
+.history h1 {
+  width: 700px;
+  text-align: center;
+  zoom: 300%;
+}
+.caption div{
+  width: 700px;
+  text-align: center;
+}
+.step {
+    -webkit-transition: opacity 1s;
+    -moz-transition:    opacity 1s;
+    -ms-transition:     opacity 1s;
+    -o-transition:      opacity 1s;
+    transition:         opacity 1s;
+}
+
+.history:not(.active) {
+    opacity: 0;
+}
+.capture:not(.active) {
+  opacity: 0;
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>My Smartphone Usage</title>
+
+	<meta name="description" content="jmpress.js is a jQuery plugin to build a website on the infinite canvas">
+	<meta name="author" content="Kyle Robinson Young @shama & Tobias Koppers @sokra" />
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=yes" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<!-- Google Fonts -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+	<link href="./css/jmpress.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="./js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="./js/jmpress.js"></script>
+</head>
+<body>
+
+	<div id="jmpress">
+		<!-- Title -->
+		<div id="title" class="step" data-x="0" data-y="0">
+			<img src="./images/title.png" />
+		</div>
+		<div id="title2" class="step" data-x="0" data-y="-300" data-scale="0.4">
+		</div>
+		<div id="title3" class="step" data-x="0" data-y="150" data-scale="0.4">
+		</div>
+
+		<!-- History -->
+		<div id="history1" class="step history" data-x="2000" data-y="100" >
+			<img src="./images/z1f.jpg" />
+		</div>
+		<div id="history2" class="step history" data-x="2000" data-y="100" data-z="-2000" data-rotate-z="20">
+			<img src="./images/acro.png" />
+		</div>
+		<div id="history3" class="step history" data-x="2000" data-y="100" data-z="-4000" data-rotate-z="40">
+			<img src="./images/iphone_4s.png" />
+		</div>
+		<div id="history4" class="step history" data-x="2000" data-y="100" data-z="-6000" data-rotate-z="60">
+			<img src="./images/iphone_3gs.png" />
+		</div>
+		<div id="history5" class="step history" data-x="2000" data-y="100" data-z="-8000" data-rotate-z="80">
+			<img src="./images/SonyClielarge.jpg" />
+		</div>
+		<div id="history6" class="step history" data-x="2000" data-y="100" data-z="-10000" data-rotate-z="100">
+			<img src="./images/Palm_Pilot_1000.png" />
+		</div>
+		<div id="history7" class="step history" data-x="2000" data-y="100" data-z="-12000" data-rotate-z="120">
+			<img src="./images/organizer.png" />
+		</div>
+
+		<!--
+		<div id="history8" class="step history" data-x="2000" data-y="100" data-z="-14000" data-rotate-z="120">
+			<h1>メモ魔</h1>
+			<h1>note-taker</h1>
+		</div>
+		-->
+		<div id="top4" class="step" data-x="0" data-y="0">
+		</div>
+		<div id="top4-2" class="step" data-x="0" data-y="500" data-scale="0.4">
+		</div>
+
+		<!-- apps -->
+		<div id="app" class="step" data-x="360" data-y="0" data-z="-360" data-rotate-y="90">
+			<img src="./images/apps1.png" />
+		</div>
+		<div id="app1" class="step" data-x="0" data-y="0" data-z="-720" data-rotate-y="180">
+			<img src="./images/apps2.png" />
+		</div>
+		<div id="app2" class="step" data-x="0" data-y="-300" data-z="-720" data-rotate-y="180" data-scale="0.4">
+		</div>
+		<div id="do_note_video" class="step capture" data-x="0" data-y="0" data-z="-730" data-rotate-y="180">
+			<video src="./images/do_note.mp4" controls />
+		</div>
+		<!--
+		<div id="do_note" class="step capture" data-x="0" data-y="0" data-z="-720" data-rotate-y="180">
+			<img src="./images/do_note2.png" />
+		</div>
+	  -->
+		<div id="app3" class="step" data-x="0" data-y="-100" data-z="-720" data-rotate-y="180" data-scale="0.4">
+		</div>
+		<div id="app4-1" class="step" data-x="0" data-y="200" data-z="-720" data-rotate-y="180" data-scale="0.4">
+		</div>
+		<div id="food" class="step capture" data-x="0" data-y="0" data-z="-720" data-rotate-y="180">
+			<img src="./images/food.png" />
+		</div>
+		<div id="app4-2" class="step" data-x="0" data-y="200" data-z="-720" data-rotate-y="180" data-scale="0.4">
+		</div>
+		<div id="film" class="step capture" data-x="0" data-y="0" data-z="-720" data-rotate-y="180">
+			<img src="./images/filmark.png" />
+		</div>
+		<div id="app4-3" class="step" data-x="0" data-y="200" data-z="-720" data-rotate-y="180" data-scale="0.4">
+		</div>
+		<div id="booklog" class="step capture" data-x="0" data-y="0" data-z="-720" data-rotate-y="180">
+			<img src="./images/booklog.png" />
+		</div>		<div id="app5" class="step" data-x="0" data-y="0" data-z="-720" data-rotate-y="180">
+		</div>
+
+		<div id="fin" class="step" data-x="-360" data-y="0" data-z="-360" data-rotate-y="270">
+			<img src="./images/fin.png" />
+		</div>
+		<div id="fin2" class="step" data-x="-360" data-y="0" data-z="-360" data-rotate-x="-90" data-rotate-y="270" data-scale="0.7">
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	$(function() {
+		$('#jmpress').jmpress({
+			viewPort: {
+				height: 1500,
+				width: 1500,
+				maxScale: 1,
+				zoomable: 5
+			}
+		});
+	});
+	</script>
+
+</body>
+</html>
