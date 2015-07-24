@@ -1,8 +1,12 @@
-title: 東京Node学園 15時限目めも
-author: @f_nishio
+# 東京Node学園 15時限目めも
+@f_nishio
 
 
-## io.js - governance
+
+## io.js
+
+
+### io.js - governance
 
 - io.jsはnode.jsの_spork_
     - fork ほど分岐してない、friendly fork
@@ -12,7 +16,8 @@ author: @f_nishio
     - New Committers (Ohta-san from JP)
     - io.jsへのcommit数増加
 
-## io.js - feature
+
+### io.js - feature
 
 - v8 4.1.0.14 - nodeは3.28くらい?
     - ES6が使える! (ﾟдﾟ)ｳﾏｰ
@@ -24,6 +29,7 @@ author: @f_nishio
 - fs.net.tls込でちょっとnodeより速い？
 - Node.js or io.js ?
     - discussion on slack !
+
 
 
 ## Extensible Web
@@ -38,6 +44,7 @@ author: @f_nishio
     - 低レベルAPIを「標準化→ベンダー→開発者」(-"-;)ﾑﾑ･･･
 
 
+
 ## WebSocket deflate圧縮
 
 - wsモジュール
@@ -50,12 +57,16 @@ author: @f_nishio
   - Firefox v37
   - socket.io v1.4
 
+
+
 ## CodeOnMobile
 
 github.cm/dai-shi
 
 - mobileでcodingしたい！
 - client side: ACE (? 何?)
+
+
 
 ## 今できる通信高速化
 
@@ -68,6 +79,8 @@ github.cm/dai-shi
     - webworker
 - 通信量削減可能
     - lz4展開コストを回収できるデータ量なら
+
+
 
 ## Socket.ioでLife game
 
