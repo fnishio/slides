@@ -73,12 +73,15 @@ IoTやってみよう！
 
 http://www.ibm.com/developerworks/jp/cloud/library/cl-mqtt-bluemix-iot-node-red-app/
 
-## Device - 接続機器の登録
+## Device
+
+
+### 接続機器の登録
 IoT Foundationのdashboardを開いて接続する機器を登録する。
 登録後に表示される認証用のAuthentication TokenはMQTT Broker接続時の認証パスワードとして使う。
 ![Device Regist](./images/device_reg.png)
 
-## Device - MQTT Brokerにつなぐ
+### MQTT Brokerにつなぐ
 ```python
 client_id = "d:{org_id}:{type_id}:{device_id}"
 endpoint = "{org_id}.messaging.internetofthings.ibmcloud.com"
@@ -91,7 +94,7 @@ client.connect(endpoint, 1883)
 ``org_id, type_id, device_id, PASSWORD``はIoT Foundationへの登録情報を元に適切に設定する。
 
 
-## Device - Event Publish
+### Event Publish
 1.5秒ごとに``count``をインクリメントしながらpublishする。
 ```python
 count = 0
@@ -104,7 +107,7 @@ while client.loop() == 0:
 ```
 
 
-## Device - Command subscribe
+### Command subscribe
 - Brokerに接続したら``iot-2/cmd/cid/fmt/json``トピックをsubscirbe
 - ``reset``コマンドが来たら``count``をコマンドに含まれている値に再設定
 
@@ -120,30 +123,32 @@ def on_message(client, userdata, msg):
 ```
 
 
-## Service - Node-RED
+## Service
+
+### Node-RED
 サービス側のアプリはNode-REDで手っ取り早く作る。
 ![flow](./images/monitor_app_flow.png)
 
 
-## Service - Event subscribe
+### Event subscribe
 ``MQTT Device``から送信されるトピック``iot-2/evt/eid/fmt/json``のイベントをsubscribeする
 
 ![in](./images/monitor_app_in.png)
 
 
-## Service - Monitor
+### Monitor
 countイベントをモニターして、countが4を超えたら次のフローへ進む
 
 ![switch](./images/monitor_app_switch.png)
 
 
-## Service - Command payload
+### Command payload
 resetコマンドを組み立てる
 
 ![reset](./images/monitor_app_reset.png)
 
 
-## Service - Command publish
+### Command publish
 deviceIdの機器に対して、トピック``iot-2/cmd/cid/fmt/json``にコマンドをpublish
 
 ![out](./images/monitor_app_out.png)
@@ -166,4 +171,94 @@ sent: {"d": {"count": 1}}
 
 
 # Sample 2 - リモート制御
-(To Be Continued)
+こんなものを作ってみる。
+
+- Device: MQTT で toggle コマンドを受け取るたびに、LEDのoff/onを切り替える。
+- App: Web APIを叩かれるたびに、toggleコマンドをpublishする。
+- Controller: [Do Button](https://ifttt.com/products/do/button)を使ってWeb APIを叩く。
+
+
+## Device
+
+
+### 接続機器の登録
+IoT Foundationのdashboardを開いて接続する機器を登録する。
+登録後に表示される認証用のAuthentication TokenはMQTT Broker接続時の認証パスワードとして使う。
+![Device Regist](./images/device_reg.png)
+
+
+### MQTT Brokerにつなぐ
+```python
+client_id = "d:{org_id}:{type_id}:{device_id}"
+endpoint = "{org_id}.messaging.internetofthings.ibmcloud.com"
+client = mqtt.Client(client_id)
+client.username_pw_set("use-token-auth", PASSWORD)
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect(endpoint, 1883)
+```
+``org_id, type_id, device_id, PASSWORD``はIoT Foundationへの登録情報を元に適切に設定する。
+
+
+### Command subscribe
+- Brokerに接続したら`iot-2/cmd/led/fmt/json`をsubscribe
+- `toggle`コマンドが来たらGPIO PINの状態を変える
+
+```python
+def on_connect(client, userdata, flags, rc):
+    client.subscribe("iot-2/cmd/led/fmt/json")
+
+def on_message(client, userdata, msg):
+    payload = json.loads(msg.payload.decode())
+    if payload['cmd'] == "toggle":
+       # control GPIO
+       global on_off
+       on_off = ~on_off
+       GPIO.output(LED_PIN, on_off)
+```
+
+
+## Service
+
+
+### Node-RED
+サービス側のアプリはNode-REDで以下のフローを実装。
+![flow](./images/control_app_flow.png)
+
+
+### Web API
+POSTで操作対象となる機器のdeviceIdを受け取る Web API。
+
+![API](./images/control_app_api.png)
+
+| Method | URL    |
+|--------|---------------|
+| POST   | led/v1/toggle |
+
+| Type | Params | Valuse | Description |
+|------|--------|--------|------|
+| json | deviceId | string | 操作対象のdevice ID |
+
+
+### Command payload
+toggle操作を行うcommand payloadを組み立てる。
+
+![toggle command](./images/control_app_toggle.png)
+
+
+### Command publish
+deviceId の機器に対して、トピック`iot-2/cmd/led/fmt/json`にコマンドをpublishする。
+
+![out](./images/control_app_out.png)
+
+## Controller
+
+
+### Recipe
+Do ButtonにRecipeを設定。
+
+![recipe](./images/controller_recipe.png)
+
+## 実行
+
+[実行の様子 (mp4)](./images/toggle_led.mp4)
