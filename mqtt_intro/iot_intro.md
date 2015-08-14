@@ -262,3 +262,118 @@ Do ButtonにRecipeを設定。
 ## 実行
 
 [実行の様子 (mp4)](./images/toggle_led.mp4)
+
+
+
+# Sample 3 - Android センサーのモニタリング
+こんなものを作ってみる。
+
+- Android: Lightセンサーの値をMQTT eventとしてpublishする。
+- App: センサー値のeventをWebSocketに出力する。ブラウザからWebSocketに接続してセンサー値をモニタリングする。
+
+
+## Device
+
+
+### 接続機器の登録
+IoT Foundationのdashboardを開いて接続する機器を登録する。
+登録後に表示される認証用のAuthentication TokenはMQTT Broker接続時の認証パスワードとして使う。
+![Device Regist](./images/device_reg.png)
+
+
+### MQTT Brokerにつなぐ
+Android版のpaho mqttライブラリを使ってMQTT Brokerに接続する。
+
+```java
+MyMqttClient(Context context) {
+    mClient = new MqttAndroidClient(context, MyMqttConfig.ENDPOINT_URL, MyMqttConfig.CLIENT_ID);
+}
+
+public void connect() {
+    MqttConnectOptions options = new MqttConnectOptions();
+    options.setUserName(MyMqttConfig.USER);
+    options.setPassword(MyMqttConfig.PASSWORD.toCharArray());
+    try {
+        mClient.connect(options, null, new IMqttActionListener() {
+            @Override
+            public void onSuccess(IMqttToken mqttToken) {
+              // ...
+            }
+
+            @Override
+            public void onFailure(IMqttToken arg0, Throwable arg1) {
+              // ...
+            }
+        });
+    } catch (MqttSecurityException e) {
+        // do nothing.
+    } catch (MqttException e) {
+        // do nothing.
+    }
+}
+```
+
+
+### Event publish
+SensorEventListenerのonSensorChanged()でセンサー値を監視して`iot-2/evt/sensor/fmt/json`にpublishする。
+```java
+@Override
+public final void onSensorChanged(SensorEvent event) {
+    float value = event.values[0];
+    mClient.publish("sensor", "light", value);
+}
+```
+
+
+
+# Service
+
+
+## Node-RED
+サービス側は、2つのフローを実装する。
+- センサー値のイベントをWebSocketに送信するフロー
+![WebSocket](./images/websocket.png)
+- WebSocketの値を監視するWebページをブラウザに送るフロー
+![Monitor](./images/monitor_page.png)
+
+
+### Event subscirbe
+MQTT Deviceから送信されるトピック`iot-2/evt/sensor/fmt/json`のイベントをsubscribeして、
+WebSocket に送信するデータを組み立てる。
+![ws format](./images/ws_format.png)
+
+WebSocket `/ws/sensor`にデータを送る。
+![ws out](./images/ws_out.png)
+
+
+### Monitoring
+`/sensor`にHTTP GETされたら以下のhtmlをブラウザに返す。WebSocket `/ws/sensor`につないで、
+ブラウザ上のセンサー値表示を更新し続ける。
+
+```html
+<head>
+  <title>Sensor</title>
+  <script type="text/javascript">
+  var wsUri = "ws://{{req.headers.host}}/ws/sensor";
+  var ws = new WebSocket(wsUri);
+
+  ws.onmessage = function(ev) {
+    var payload = JSON.parse(ev.data);
+    var device = document.getElementById('device');
+    device.textContent = payload.deviceId;
+    var sensor = document.getElementById('sensor');
+    sensor.textContent = payload.light;
+  }
+  </script>
+</head>
+
+<body>
+    <div>Sensor Monitor:</div>
+    <div>
+      Id: <span id="device">xxx</span>
+      Value:<span id="sensor">00</span>
+    </div>
+</body>
+```
+
+![html](./images/monitor_html.png)
