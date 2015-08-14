@@ -340,9 +340,11 @@ public final void onSensorChanged(SensorEvent event) {
 ### Event subscirbe
 MQTT Deviceから送信されるトピック`iot-2/evt/sensor/fmt/json`のイベントをsubscribeして、
 WebSocket に送信するデータを組み立てる。
+
 ![ws format](./images/ws_format.png)
 
 WebSocket `/ws/sensor`にデータを送る。
+
 ![ws out](./images/ws_out.png)
 
 
