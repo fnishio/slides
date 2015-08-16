@@ -7,8 +7,14 @@
 
 
 # Summary
+Qiitaにも、まとめてあります。
+- http://qiita.com/f_nishio/items/0b5161207a110f7bbef4
+- http://qiita.com/f_nishio/items/33b4922ccf705d74b002
+- http://qiita.com/f_nishio/items/f1652dfdecd12649e7ad
 
-サンプルコードは github: [mqtt-sample](https://github.com/fnishio/mqtt-sample)
+サンプルコードは github [fnishio/mqtt-sample](https://github.com/fnishio/mqtt-sample) です。
+
+
 
 # IoT
 3つのパターン
@@ -258,6 +264,7 @@ deviceId の機器に対して、トピック`iot-2/cmd/led/fmt/json`にコマ�
 Do ButtonにRecipeを設定。
 
 ![recipe](./images/controller_recipe.png)
+
 
 ## 実行
 
